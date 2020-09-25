@@ -2,13 +2,18 @@ package test.java.com.liam;
 
 import main.java.com.liam.HashTable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import main.java.com.liam.Node;
 import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 
 class HashTableTests {
 
-    HashTable table = new HashTable();
+    public static final int SIZE = 256;
+
+    HashTable table = new HashTable(SIZE);
     
     @Test
     void getBytesWithDuke() throws NoSuchAlgorithmException {
@@ -19,5 +24,12 @@ class HashTableTests {
         assertEquals(75, hash[2]);
         assertEquals(168, hash[31]);
     }
+
+    @Test
+    void insertValueAndLookupValueNoChaining() throws Exception {
+        table.insertValue("Duke", 4);
+        assertEquals(4, table.lookupValue("Duke"));
+    }
+
     
 }

@@ -9,14 +9,14 @@ import java.util.Map;
 public class HashTable {
 
     private int size;
-    private ArrayList<ArrayList> table;
+    private Node[] table;
 
     public HashTable(){
     }
 
     public HashTable(int size){
         this.size = size;
-        table = new ArrayList<>(size);
+        this.table = new Node[size];
     }
 
     public int[] getBytes(String key, int byteNumber) throws NoSuchAlgorithmException {
@@ -30,11 +30,23 @@ public class HashTable {
     }
 
     // returns key's corresponding value in hash table
-    public int lookupValue(String key) {
-
+    public int lookupValue(String key) throws Exception {
+        int index = getBytes(key, 1)[0];
+        Node temp = table[index];
+        while (temp.key != key && temp != null) temp = temp.next;
+        if (temp == null) throw new Exception("Key does not exist");
+//        if (temp.next == null) throw new Exception("Key does not exist");
+        return temp.value;
     }
 
-    public void insertValue(String key, int value) {
-
+    public void insertValue(String key, int value) throws NoSuchAlgorithmException {
+        int index = getBytes(key, 1)[0];
+        if (table[index] == null) {
+            table[index] = new Node(key, value);
+        } else {
+            Node temp = table[index];
+            while (temp.next != null) temp = temp.next;
+            temp.next = new Node(key, value);
+        }
     }
 }
