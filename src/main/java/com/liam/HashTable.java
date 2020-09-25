@@ -10,7 +10,6 @@ public class HashTable {
 
     private static final int EMPTY = 0;
 
-    private int size;
     private Node[] table;
 
 
@@ -18,7 +17,6 @@ public class HashTable {
     }
 
     public HashTable(int size){
-        this.size = size;
         this.table = new Node[size];
     }
 
@@ -39,6 +37,8 @@ public class HashTable {
             insertValue(key,inc);
         }
     }
+
+
 
     // returns key's corresponding value in hash table
     public int lookupValue(String key) throws NoSuchAlgorithmException {
