@@ -31,5 +31,21 @@ class HashTableTests {
         assertEquals(4, table.lookupValue("Duke"));
     }
 
+    @Test
+    void lookupNonExistantKey() throws NoSuchAlgorithmException {
+        assertEquals(0,table.lookupValue("d"));
+    }
+
+    @Test
+    void incrementValue() throws NoSuchAlgorithmException {
+        table.incrementValue("Duke");
+        assertEquals(1, table.lookupValue("Duke"));
+
+        table.insertValue("Duke",4);
+        table.incrementValue("Duke");
+        assertEquals(5, table.lookupValue("Duke"));
+
+    }
+
     
 }

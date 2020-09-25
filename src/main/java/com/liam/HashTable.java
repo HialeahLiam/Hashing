@@ -8,8 +8,11 @@ import java.util.Map;
 
 public class HashTable {
 
+    private static final int EMPTY = 0;
+
     private int size;
     private Node[] table;
+
 
     public HashTable(){
     }
@@ -29,14 +32,22 @@ public class HashTable {
         return result;
     }
 
+    public void incrementValue(String key) throws NoSuchAlgorithmException {
+        if (lookupValue(key) == EMPTY) insertValue(key,1);
+        else {
+            int inc = lookupValue(key) + 1;
+            insertValue(key,inc);
+        }
+    }
+
     // returns key's corresponding value in hash table
-    public int lookupValue(String key) throws Exception {
+    public int lookupValue(String key) throws NoSuchAlgorithmException {
         int index = getBytes(key, 1)[0];
         Node temp = table[index];
-        while (temp.key != key && temp != null) temp = temp.next;
-        if (temp == null) throw new Exception("Key does not exist");
-//        if (temp.next == null) throw new Exception("Key does not exist");
-        return temp.value;
+        if (temp == null) return EMPTY;
+        while (!temp.key.equals(key) && temp.next != null) temp = temp.next;
+        if (temp.key.equals(key)) return temp.value;
+        else return EMPTY;
     }
 
     public void insertValue(String key, int value) throws NoSuchAlgorithmException {
@@ -45,8 +56,9 @@ public class HashTable {
             table[index] = new Node(key, value);
         } else {
             Node temp = table[index];
-            while (temp.next != null) temp = temp.next;
-            temp.next = new Node(key, value);
+            while (temp.next != null && !temp.key.equals(key)) temp = temp.next;
+            if (temp.key.equals(key)) temp.value = value;
+            else temp.next = new Node(key, value);
         }
     }
 }
